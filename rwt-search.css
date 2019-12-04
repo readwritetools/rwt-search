@@ -1,0 +1,203 @@
+/*=============================================================================
+
+  File:         /node_modules/rwt-search/rwt-search.css
+  Language:     CSS
+  Copyright:    Read Write Tools © 2019
+  License:      MIT
+  Initial date: Dec 3, 2019
+  Contents:     Full text search across a website
+
+=============================================================================*/
+
+:host {
+	--white: #ccc;
+	--gray: #777;
+	--black: #333;
+	--medium-black: #222;
+	--nav-black: #111;
+	--pure-black: #000;
+	--js-blue: #76afe8;
+	--yellow: #ffffa4;
+	
+	--caption-bar-height: 1.5rem;
+	--user-area-height: 3rem;
+	--match-words-height: 3rem;
+
+	/* custom element variables */	
+	--width: 70vw;
+	--height: 85vh;
+	--color: var(--white);
+	--accent-color1: var(--yellow);
+	--accent-color2: var(--js-blue);
+	--background: var(--black);
+	--accent-background1: var(--medium-black);
+	--accent-background2: var(--pure-black);
+	--accent-background3: var(--nav-black);
+	--accent-background4: var(--black);
+}
+
+/* ---------- dialog frame ---------- */
+#search-dialog {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 12pt;
+	position: fixed;
+	bottom: 3rem;
+	right: 3rem;
+	width: var(--width);
+	max-width: 40rem;
+	min-width: 25rem;
+	height: var(--height);
+	max-height: 40rem;
+	min-height: 11rem;	
+	box-sizing: border-box;
+	background-color: var(--background);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--gray) var(--accent-background2) var(--accent-background2) var(--gray);
+	box-shadow: -2px -2px 2px var(--accent-background2), 5px 5px 8px var(--accent-background2);
+	z-index: 1;
+	cursor: default;
+}
+#search-dialog * {
+	box-sizing: border-box;
+} 
+
+/* ---------- caption bar ---------- */
+#caption-bar {
+	display: flex;
+	background-color: var(--accent-background1);
+	width: 100%;
+	height: var(--caption-bar-height);
+	border-bottom: 1px solid var(--accent-background2);
+}
+
+#caption {
+	font-size: 1rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-align: center;
+	width: calc(100% - var(--caption-bar-height));
+	margin: 0;
+	padding-top: 0.15rem;
+	color: var(--color);
+}
+
+#close-button {
+	font-size: 0.9rem;
+	font-weight: bold;
+	text-align: center;
+	display: inline-block;
+	padding: 0.25rem 0.75rem;
+	color: var(--color);
+	background-color: var(--accent-background2);
+	border-style: solid;
+	border-width: 1px;
+	border-color: var(--accent-background1);
+	cursor: pointer;
+}
+#close-button:hover,
+#close-button:visited:hover {
+	color: var(--accent-color1);
+	background-color: var(--accent-background3);
+	border: 1px solid var(--accent-background2);
+}
+
+/* ---------- user input area ---------- */
+#user-area {
+	display: flex;
+	width: 100%;
+	height: var(--user-area-height);
+	border-bottom: 1px solid var(--accent-background2);
+}
+#user-request {
+	font-size: 1rem;
+	color: var(--accent-color1);
+	background-color: var(--light-black);			/* TODO */
+	border: 1px solid var(--accent-background2);
+	width: calc(100% - var(--user-area-height));
+	margin: 0.5rem 0 0.5rem 0.5rem;
+	padding: 0 0.5rem;
+}
+#search-button {
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
+	display: inline-block;
+	margin: 0.5rem 0.5rem 0.5rem 1px;
+	color: var(--color);
+	background-color: var(--light-black);		/* TODO */
+	border-style: solid;
+	border-width: 1px;
+	border-color: var(--accent-background2);
+	cursor: pointer;
+}
+#search-button:hover,
+#search-button:visited:hover {
+	color: var(--accent-color1);
+	background-color: var(--accent-background3);
+	border: 1px solid var(--accent-background2);
+}
+
+/* ---------- match words ---------- */
+#match-words {
+ 	display: flex;
+ 	flex-wrap: wrap;
+	width: 100%;
+	height: var(--match-words-height);
+	border-bottom: 1px solid var(--accent-background2);
+	overflow-y: hidden;
+}
+#match-words button.match {
+	font-size: 0.8rem;
+	font-weight: normal;
+	color: var(--pure-white);		/* TODO */
+	text-decoration: none;
+	padding: 0.15rem 1rem;
+	margin: 0.5rem 0.25rem;
+	background-color: var(--accent-background2);
+	border-radius: 1rem;
+	border: 2px solid var(--dark-gray);		/* TODO */
+	min-width: 3rem;
+	display: inline-block;
+}
+#match-words button.match:hover,
+#match-words button.match:visited:hover {
+	color: var(--accent-color1);
+	background-color: var(--accent-background3);
+	border: 2px solid var(--accent-background2);
+}
+
+/* ---------- match docs ---------- */
+#match-docs {
+	width: 100%;
+	height: calc(100% - var(--caption-bar-height) -	var(--user-area-height) - var(--match-words-height));
+	overflow-y: auto;
+	border-top: 2px solid var(--gray);
+}
+#match-docs a {
+	display: inline-block;
+	font-size: 0.85rem;
+	width: 100%;
+	border-bottom: 1px dotted var(--accent-background2);
+	text-decoration: none;
+	padding: 0.5rem 1rem;
+}
+#match-docs a:focus,
+#match-docs a:hover {
+	background-color: var(--accent-background3);
+}
+#match-docs p {
+	margin: 0;
+}
+#match-docs .title {
+	color: var(--accent-color1);
+	padding-right: 1rem;
+}
+#match-docs .description {
+	color: var(--color);
+}
+#match-docs .url {
+	color: var(--accent-color2);
+	font-size: 0.8rem;
+}
+

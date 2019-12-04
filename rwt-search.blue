@@ -1,0 +1,34 @@
+!blue 2.0
+//=============================================================================
+//
+//  File:         /node_modules/rwt-search/rwt-search.blue
+//  Language:     Blue-phrase
+//  Copyright:    Read Write Tools © 2019
+//  License:      MIT
+//  Initial date: Dec 3, 2019
+//  Contents:     Full text search across a website
+//
+//=============================================================================
+
+!option --fragment
+
+div#search-dialog ^display:none {
+	div #caption-bar {
+		p#caption Search
+		button#close-button X
+	}
+	div #user-area {
+		input#user-request *tabindex=501 *placeholder=search *spellcheck=false
+		button#search-button *tabindex=503 *title=Search Q // 🔎
+	} 
+	div #match-words {
+		// buttons added with lookAheadMatches()
+	}
+	div #match-docs {
+		// items added with onClickSearch()
+		a `https://bluephrase.com/` *tabindex=504 {
+			p <<.title Search>> <<.description Use this search feature to easily find documents within this website.>>
+			p.url https://bluephrase.com/
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+  "name": "rwt-search",
+  "description": "Full text search across a website, a W3C standard Web Component",
+  "version": "0.9.0",
+  "author": "Read Write Tools",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "bump-version": "npm version patch && git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readwritetools/rwt-search.git"
+  },
+  "keywords": [
+    "web-component",
+    "custom-element",
+    "html-template",
+    "shadow-dom"
+  ],
+  "bugs": {
+    "url": "https://github.com/readwritetools/rwt-search/issues"
+  },
+  "homepage": "https://oss.readwritetools.com/web-components/rwt-search.blue",
+  "files": [
+    "rwt-search.blue",
+    "rwt-search.css",
+    "rwt-search.js",
+    "ternwords/*"
+  ]
+}
