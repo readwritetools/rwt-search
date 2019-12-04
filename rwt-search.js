@@ -214,7 +214,7 @@ export default class RwtSearch extends HTMLElement {
 		var html = '';
 		var buttonIDs = new Array();
 		for (let i=0; i < words.length; i++) {
-			var buttonID = `word${SearchDialog.nextWordID++}`;
+			var buttonID = `word${RwtSearch.nextWordID++}`;
 			buttonIDs.push(buttonID);
 			html += `<button id='${buttonID}' class='match' tabindex='501'>${words[i]}</button>`;
 		}
@@ -271,7 +271,7 @@ export default class RwtSearch extends HTMLElement {
 		var documentIndexes = this.ternWords.multiWordSearch(searchWords, maxMatchCount);
 
 		if (documentIndexes.length == 0) {
-			var docID = SearchDialog.nextDocID++;
+			var docID = RwtSearch.nextDocID++;
 			var html = `
 				<a id='doc${docID}' tabindex=504>
 					<p> <span class='description'>No pages found for the search terms </span> <span class='title'>${fullText}</span></p>
@@ -282,7 +282,7 @@ export default class RwtSearch extends HTMLElement {
 		else {
 			var html = '';
 			for (let i=0; i < documentIndexes.length; i++) {
-				var docID = SearchDialog.nextDocID++;
+				var docID = RwtSearch.nextDocID++;
 				var dr = this.ternWords.getDocumentRef(documentIndexes[i]);
 				html +=
 					`<a href='${dr.hostPath}' id='doc${docID}' tabindex=504>
@@ -329,7 +329,7 @@ export default class RwtSearch extends HTMLElement {
 			if (idStr.indexOf('word') == 0) {
 				var id = parseInt(idStr.substr(4));										// 6
 				id++;
-				if (id < SearchDialog.nextWordID) {
+				if (id < RwtSearch.nextWordID) {
 					var prevButton = this.shadowRoot.getElementById(`word${id}`);		// 'word6'
 					if (prevButton != null && prevButton.tagName.toLowerCase() == 'button') {
 						prevButton.focus();
@@ -374,7 +374,7 @@ export default class RwtSearch extends HTMLElement {
 			if (idStr.indexOf('doc') == 0) {
 				var id = parseInt(idStr.substr(3));										// 5
 				id++;
-				if (id < SearchDialog.nextDocID) {
+				if (id < RwtSearch.nextDocID) {
 					var prevAnchor = this.shadowRoot.getElementById(`doc${id}`);		// 'doc6'
 					if (prevAnchor != null && prevAnchor.tagName.toLowerCase() == 'a') {
 						prevAnchor.focus();
