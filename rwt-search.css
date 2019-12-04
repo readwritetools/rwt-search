@@ -199,6 +199,16 @@
 #match-docs .description {
 	color: var(--color);
 }
+#match-docs .search-terms {
+	font-size: 1rem;
+	color: var(--accent-color2);
+	background-color: var(--accent-background3);
+	border: 1px solid var(--accent-background2);
+	width: calc(100% - var(--user-area-height));
+	margin: 0.5rem 0 0.5rem 0.5rem;
+	padding: 0 0.5rem;
+
+}
 #match-docs .url {
 	color: var(--accent-color3);
 	font-size: 0.8rem;

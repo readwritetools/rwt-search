@@ -26,9 +26,5 @@ div#search-dialog ^display:none {
 	}
 	div #match-docs {
 		// items added with onClickSearch()
-		a `https://bluephrase.com/` *tabindex=504 {
-			p <<.title Search>> <<.description Use this search feature to easily find documents within this website.>>
-			p.url https://bluephrase.com/
-		}
 	}
 }

@@ -61,8 +61,6 @@ export default class RwtSearch extends HTMLElement {
 		this.identifyChildren();
 		
 		this.registerEventListeners();
-
-		// TODO
 	}
 	
 	//-------------------------------------------------------------------------
@@ -267,15 +265,29 @@ export default class RwtSearch extends HTMLElement {
 		var searchWords = fullText.split(' ');
 		searchWords = searchWords.filter(word => word.trim().length > 0);
 		
+		if (searchWords.length == 0) {
+			var docID = RwtSearch.nextDocID++;
+			var url = `${document.location.protocol}//${document.location.host}`;
+			var html = `
+				<a id='doc${docID}' tabindex=504>
+					<p><span class='title'>Search </span> <span class='description'> Use this search feature to easily find documents within this website.</span></p>
+					<p class='url'>${url}</p>
+				</a>`;
+			this.matchDocs.innerHTML = html;
+			return;
+		}
+
+		// search and keep the best 10
 		var maxMatchCount = 10;
 		var documentIndexes = this.ternWords.multiWordSearch(searchWords, maxMatchCount);
 
 		if (documentIndexes.length == 0) {
 			var docID = RwtSearch.nextDocID++;
+			var url = `${document.location.protocol}//${document.location.host}`;
 			var html = `
 				<a id='doc${docID}' tabindex=504>
-					<p> <span class='description'>No pages found for the search terms </span> <span class='title'>${fullText}</span></p>
-					<p class='url'>Try something else</p>
+					<p> <span class='description'>No documents found for the search terms </span><span class='search-terms'>${fullText}</span>. <span class='description'>Try something else.</span></p>
+					<p class='url'>${url}</p>
 				</a>`;
 			this.matchDocs.innerHTML = html;
 		}
