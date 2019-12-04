@@ -269,7 +269,7 @@ export default class RwtSearch extends HTMLElement {
 			var docID = RwtSearch.nextDocID++;
 			var url = `${document.location.protocol}//${document.location.host}`;
 			var html = `
-				<a id='doc${docID}' tabindex=504>
+				<a href='${url}' id='doc${docID}' tabindex=504>
 					<p><span class='title'>Search </span> <span class='description'> Use this search feature to easily find documents within this website.</span></p>
 					<p class='url'>${url}</p>
 				</a>`;
@@ -285,8 +285,8 @@ export default class RwtSearch extends HTMLElement {
 			var docID = RwtSearch.nextDocID++;
 			var url = `${document.location.protocol}//${document.location.host}`;
 			var html = `
-				<a id='doc${docID}' tabindex=504>
-					<p> <span class='description'>No documents found for the search terms </span><span class='search-terms'>${fullText}</span>. <span class='description'>Try something else.</span></p>
+				<a href='${url}' id='doc${docID}' tabindex=504>
+					<p> <span class='description'>No documents found for the search terms</span><span class='search-terms'>${fullText}</span> <span class='description'>Try something else.</span></p>
 					<p class='url'>${url}</p>
 				</a>`;
 			this.matchDocs.innerHTML = html;
