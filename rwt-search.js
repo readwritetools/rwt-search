@@ -477,6 +477,10 @@ export default class RwtSearch extends HTMLElement {
 			var savedUserRequest = localStorage.getItem('rwsearch-request');
 			this.userRequest.value = savedUserRequest;
 			this.onClickSearch();
+			
+			// reset focus to user input, overriding what onClickSearch just did 
+			this.userRequest.select();
+			this.userRequest.focus();
 		}
 	}
 

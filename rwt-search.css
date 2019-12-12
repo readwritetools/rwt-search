@@ -20,6 +20,7 @@
 	--pure-black: #000;
 	--js-blue: #76afe8;
 	--yellow: #ffffa4;
+	--red: #ff3d3d;
 	
 	--caption-bar-height: 1.5rem;
 	--user-area-height: 3rem;
@@ -99,8 +100,8 @@
 }
 #close-button:hover,
 #close-button:visited:hover {
-	color: var(--accent-color2);
-	background-color: var(--accent-background3);
+	color: var(--pure-white);
+	background-color: var(--red);
 	border: 1px solid var(--accent-background2);
 }
 
