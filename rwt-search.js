@@ -28,6 +28,8 @@ export default class RwtSearch extends HTMLElement {
 		this.matchWords = null;
 		this.matchDocs = null;
 		
+		// properties
+		this.shortcutKey = null;
 		this.hasSitewords = false;					// sitewords data files has not yet been retrieved
 		this.hasTernarySearchTree = false;			// Ternary Search Trie not been built yet
 		this.textInterface = null;					// Ternary Search Trie text interface
@@ -59,8 +61,8 @@ export default class RwtSearch extends HTMLElement {
 		this.shadowRoot.appendChild(styleElement); 
 		
 		this.identifyChildren();
-		
 		this.registerEventListeners();
+		this.initializeShortcutKey();
 	}
 	
 	//-------------------------------------------------------------------------
@@ -123,6 +125,16 @@ export default class RwtSearch extends HTMLElement {
 		this.matchDocs.addEventListener('keydown', this.onKeydownMatchDocs.bind(this));
 	}
 
+	//^ Get the user-specified shortcut key. This will be used to open the dialog.
+	//  Valid values are "F1", "F2", etc., specified with the *shortcut attribute on the custom element
+	//  Default value is "F4"
+	initializeShortcutKey() {
+		if (this.hasAttribute('shortcut'))
+			this.shortcutKey = this.getAttribute('shortcut');
+		else
+			this.shortcutKey = 'F4';
+	}
+
 	//-------------------------------------------------------------------------
 	// document events
 	//-------------------------------------------------------------------------
@@ -133,16 +145,18 @@ export default class RwtSearch extends HTMLElement {
 		//event.stopPropagation();	//no
 	}
 	
+	// close the dialog when user presses the ESC key
+	// toggle the dialog when user presses the assigned shortcutKey
 	onKeydownDocument(event) {		
-		// close the dialog when user presses the ESC key
 		if (event.key == "Escape") {
-			event.stopPropagation();
 			this.hideDialog();
-		}
-		// open the dialog when user presses the F4 key
-		if (event.key == "F4") {
 			event.stopPropagation();
+		}
+		// like 'F1', 'F2', etc
+		if (event.key == this.shortcutKey) {
 			this.toggleDialog();
+			event.stopPropagation();
+			event.preventDefault();
 		}
 	}
 	
