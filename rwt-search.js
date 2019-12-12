@@ -14,6 +14,8 @@ import TernWords     	from './ternwords/tern-words.class.js';
 
 export default class RwtSearch extends HTMLElement {
 
+	// The elementInstance is used to distinguish between multiple instances of this custom element
+	static elementInstance = 0;
 	static nextWordID = 1;
 	static nextDocID = 1;
 
@@ -30,6 +32,8 @@ export default class RwtSearch extends HTMLElement {
 		
 		// properties
 		this.shortcutKey = null;
+		this.collapseSender = `RwtSearch ${RwtSearch.elementInstance}`;
+
 		this.hasSitewords = false;					// sitewords data files has not yet been retrieved
 		this.hasTernarySearchTree = false;			// Ternary Search Trie not been built yet
 		this.textInterface = null;					// Ternary Search Trie text interface
@@ -162,14 +166,14 @@ export default class RwtSearch extends HTMLElement {
 	
 	//^ Send an event to close/hide all other registered popups
 	collapseOtherPopups() {
-		var collapseEvent = new CustomEvent('collapse-popup', {detail: { sender: 'RwtSearch'}});
+		var collapseEvent = new CustomEvent('collapse-popup', {detail: { sender: this.collapseSender }});
 		document.dispatchEvent(collapseEvent);
 	}
 	
 	//^ Listen for an event on the document instructing this dialog to close/hide
 	//  But don't collapse this dialog, if it was the one that generated it
 	onCollapsePopup(event) {
-		if (event.detail.sender == 'RwtSearch')
+		if (event.detail.sender == this.collapseSender)
 			return;
 		else
 			this.hideDialog();
@@ -430,11 +434,12 @@ export default class RwtSearch extends HTMLElement {
 			return;
 		}
 		
-		// get the location of the user-specified SITEWORDS file from the customElement's sourceref attribute 
+		// the user must provide a sourceref attribute with the location of the SITEWORDS file 
 		if (this.hasAttribute('sourceref') == false) {
 			localStorage.setItem('sitewords-data', '');
 			return;
 		}
+		// get the location of the user-specified SITEWORDS file from the customElement's sourceref attribute 
 		var sourceref = this.getAttribute('sourceref');
 
 		// make a conditional fetch by sending along the previously captured etag, if there is one,
