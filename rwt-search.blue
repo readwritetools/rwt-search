@@ -19,7 +19,7 @@ div#search-dialog ^display:none {
 	}
 	div #user-area {
 		input#user-request *tabindex=501 *placeholder=search *spellcheck=false
-		button#search-button *tabindex=503 *title=Search Q // 🔎
+		button#search-button *tabindex=503 *title=Search %01f50e  	// 🔎
 	} 
 	div #match-words {
 		// buttons added with lookAheadMatches()

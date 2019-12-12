@@ -477,10 +477,6 @@ export default class RwtSearch extends HTMLElement {
 			var savedUserRequest = localStorage.getItem('rwsearch-request');
 			this.userRequest.value = savedUserRequest;
 			this.onClickSearch();
-			
-			// reset focus to user input, overriding what onClickSearch just did 
-			this.userRequest.select();
-			this.userRequest.focus();
 		}
 	}
 
@@ -492,9 +488,14 @@ export default class RwtSearch extends HTMLElement {
 	async toggleDialog() {
 		if (this.dialog.style.display == 'none') {
 			setTimeout( this.showDialog(), 0);
+
 			// lazy loading of sitewords data, and Ternary Search Trie
 			await this.retrieveSitewords();
 			await this.initializeTernarySearchTrie();
+			
+			// reset focus to user input, overriding what onClickSearch just did 
+			this.userRequest.select();
+			this.userRequest.focus();
 		}
 		else
 			this.hideDialog();
