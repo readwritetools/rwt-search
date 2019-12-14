@@ -333,8 +333,13 @@ export default class RwtSearch extends HTMLElement {
 			this.onClickSearch();
 		}
 		else if (event.key == 'ArrowDown') {
-			this.matchWords.querySelector('button').focus();		// place focus on the first word button
-			event.preventDefault();
+			var el = this.matchWords.querySelector('button');	// place focus on the first word button
+			if (el == null)
+				el = this.matchDocs.querySelector('a');			// place focus on the first search result
+			if (el != null) {
+				el.focus();		
+				event.preventDefault();
+			}
 		}
 	}
 
