@@ -1,0 +1,17 @@
+!blue 2.0
+/*=============================================================================
+//
+// File:         rwt-search/pro/build
+// Language:     prorenata script
+// Copyright:    Read Write Tools © 2020
+// License:      MIT License
+// Initial date: Dec 4, 2019
+// Contents:     life cycle
+//
+=============================================================================*/
+
+run {
+	sh renata exim				// Convert .blue to .md
+	sh renata deploy			// Check for pending work, commit, bump version, push repo
+	sh renata publish			// publish to NPM
+}

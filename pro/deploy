@@ -1,0 +1,30 @@
+!blue 2.0
+//=============================================================================
+//
+// File:         rwt-search/pro/deploy
+// Language:     prorenata script
+// Copyright:    Read Write Tools © 2020
+// License:      MIT License
+// Initial date: Dec 4, 2019
+// Contents:     Check for pending work, commit, bump version, push repo
+//
+//=============================================================================
+
+
+// ---------- check make sure repo has no uncommited work ---------- 
+run {
+	sh git add .
+	sh git commit -m "deploy"
+	sh git diff-index --quiet HEAD
+}
+
+
+// ---------- bump version and push repo to origin ---------- 
+run {
+	sh npm version patch
+	sh git push origin master
+	sh git push origin master --tags
+	sh git push github master
+	sh git push github master --tags
+	onerror continue
+}

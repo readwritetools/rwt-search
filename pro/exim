@@ -1,0 +1,23 @@
+!blue 2.0
+//=============================================================================
+//
+// File:         rwt-search/pro/exim
+// Language:     prorenata script
+// Copyright:    Read Write Tools © 2020
+// License:      MIT License
+// Initial date: Dec 4, 2019
+// Contents:     Convert .blue to .md
+//
+//=============================================================================
+
+template {
+	ghfm		blue compile <source> <dest> --emit=ghfm
+}
+
+// ---------- Convert blue document into Github Flavored readme.md ---------- 
+recurse {
+	source '/palau/www/hub.readwritetools.com/components/ghfm/search.blue'
+	dest   '../readme.md' 
+	overwrite always
+	exec ghfm
+}
