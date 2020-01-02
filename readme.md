@@ -109,11 +109,7 @@ it.
 
    * Add a button for the visitor to click to show the dialog:
 ```html
-<a id=search-button title='Search (F4)'> 
-
-🔎
-
- </a>
+<a id=search-button title='Search (F4)'>�</a>
 ```
 
    * Add a listener to respond to the click event:
