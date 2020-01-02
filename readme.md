@@ -23,12 +23,12 @@
 
 <table>
 	<tr><th>Abstract</th></tr>
-	<tr><td>The <span class=product>rwt-search</span> web component is the standard user interface for the Site Search feature of the <a href='/enterprise/rwserve.blue'>RWSERVE</a> HTTP/2 server. This search dialog box has look-ahead word autofill to guide users in their search for locally hosted documents.</td></tr>
+	<tr><td>The <span class=product>rwt-search</span> web component is the standard user interface for the Site Search feature of the <a href='https://hub.readwritetools.com/enterprise/rwserve.blue'>RWSERVE</a> HTTP/2 server. This search dialog box has look-ahead word autofill to guide users in their search for locally hosted documents.</td></tr>
 </table>
 
 ### Motivation
 
-The SEMWORDS and SITEWORDS tools (see <a href='/enterprise/site-search.blue'>Site Search</a>
+The SEMWORDS and SITEWORDS tools (see <a href='https://hub.readwritetools.com/enterprise/site-search.blue'>Site Search</a>
 ) produce an index of all the words used in a given website. That index is used
 by this web component to provide full text searching on a local basis, without
 relying on AJAX or direct server interaction.
@@ -95,22 +95,25 @@ it.
 <script src='/node_modules/rwt-search/rwt-search.js' type=module></script>             
 ```
 
-   * Add the component tag somewhere on the page. For scripting purposes, apply an `id`
-      attribute. Apply a `sourceref` attribute with a reference to the full-text word
-      index file created by the SITEWORDS utility. Optionally, apply a shortcut
-      attribute with something like F2, F4, etc. for hotkey access. And for WAI-ARIA
-      accessibility apply a `role=search` attribute.
+   * Add the component tag somewhere on the page.
+
+      * For scripting purposes, apply an `id` attribute.
+      * Apply a `sourceref` attribute with a reference to the full-text word index file
+         created by the SITEWORDS utility.
+      * Optionally, apply a shortcut attribute with something like F2, F4, etc. for
+         hotkey access.
+      * And for WAI-ARIA accessibility apply a `role=search` attribute.
 ```html
 <rwt-search id=search sourceref='/data/sitewords' shortcut=F4 role=search></rwt-search>             
 ```
 
    * Add a button for the visitor to click to show the dialog:
 ```html
-<a id=search-button title='Search (F4)'>
+<a id=search-button title='Search (F4)'> 
 
 🔎
 
-</a>
+ </a>
 ```
 
    * Add a listener to respond to the click event:
