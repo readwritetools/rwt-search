@@ -16,7 +16,7 @@ run {
 	sh git add ../
 	sh git commit -m "deploy"
 	sh git push
-	sh git diff-index --quiet HEAD
+	onerror continue
 }
 
 

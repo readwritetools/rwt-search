@@ -77,7 +77,7 @@ export default class RwtSearch extends HTMLElement {
 	//< returns a document-fragment suitable for appending to shadowRoot
 	//< returns null if server does not respond with 200 or 304
 	async fetchTemplate() {
-		var response = await fetch('/node_modules/rwt-search/rwt-search.blue');
+		var response = await fetch('/node_modules/rwt-search/rwt-search.blue', {cache: "no-cache", referrerPolicy: 'no-referrer'});		// send conditional request to server with ETag and If-None-Match
 		if (response.status != 200 && response.status != 304)
 			return null;
 		var templateText = await response.text();
@@ -92,7 +92,7 @@ export default class RwtSearch extends HTMLElement {
 	//< returns an style element suitable for appending to shadowRoot
 	//< returns null if server does not respond with 200 or 304
 	async fetchCSS() {
-		var response = await fetch('/node_modules/rwt-search/rwt-search.css');
+		var response = await fetch('/node_modules/rwt-search/rwt-search.css', {cache: "no-cache", referrerPolicy: 'no-referrer'});
 		if (response.status != 200 && response.status != 304)
 			return null;
 		var css = await response.text();
@@ -450,10 +450,10 @@ export default class RwtSearch extends HTMLElement {
 
 		// make a conditional fetch by sending along the previously captured etag, if there is one,
 		// or an unconditional request if there isn't
-		var options = {};
+		var options = {referrerPolicy: 'no-referrer'};
 		var etag = localStorage.getItem('sitewords-etag');
 		if (etag != null)
-			options.headers = { 'if-none-match': etag };
+			options.headers = {'if-none-match': etag};
 		
 		var response = await fetch(sourceref, options);
 		
