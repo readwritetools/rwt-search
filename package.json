@@ -16,7 +16,8 @@
     "web-component",
     "custom-element",
     "html-template",
-    "shadow-dom"
+    "shadow-dom",
+    "readwritetools"
   ],
   "bugs": {
     "url": "https://github.com/readwritetools/rwt-search/issues"

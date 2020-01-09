@@ -10,25 +10,21 @@
 =============================================================================*/
 
 :host {
-	--pure-white: #fff;
-	--white: #ccc;
-	--gray: #777;
-	--dark-gray: #555;
-	--black: #333;
-	--medium-black: #222;
-	--nav-black: #111;
 	--pure-black: #000;
+	--nav-black: #111;
+	--light-black: #171717;
+	--medium-black: #222;
+	--black: #333;
+	--dark-gray: #555;
+	--gray: #777;
+	--white: #ccc;
+	--pure-white: #fff;
 	--js-blue: #76afe8;
+	--title-blue: #42affa;
 	--yellow: #ffffa4;
 	--red: #ff3d3d;
 	
-	--caption-bar-height: 1.5rem;
-	--user-area-height: 3rem;
-	--match-words-height: 3rem;
-
-	/* custom element variables */	
-	--width: 70vw;
-	--height: 85vh;
+	/* custom element decorations */
 	--color: var(--white);
 	--accent-color1: var(--pure-white);
 	--accent-color2: var(--yellow);
@@ -38,6 +34,15 @@
 	--accent-background2: var(--pure-black);
 	--accent-background3: var(--nav-black);
 	--accent-background4: var(--black);
+
+	/* custom element variables */	
+	--width: 70vw;
+	--height: 85vh;
+
+	/* calculated sizing */
+	--caption-bar-height: 1.5rem;
+	--user-area-height: 3rem;
+	--match-words-height: 3rem;
 }
 
 /* ---------- dialog frame ---------- */

@@ -32,6 +32,7 @@ export default class RwtSearch extends HTMLElement {
 		
 		// properties
 		this.shortcutKey = null;
+		RwtSearch.elementInstance++;
 		this.collapseSender = `RwtSearch ${RwtSearch.elementInstance}`;
 
 		this.hasSitewords = false;					// sitewords data files has not yet been retrieved

@@ -109,7 +109,11 @@ it.
 
    * Add a button for the visitor to click to show the dialog:
 ```html
-<a id=search-button title='Search (F4)'>🔎</a>
+<a id=search-button title='Search (F4)'>
+
+🔎
+
+</a>
 ```
 
    * Add a listener to respond to the click event:
@@ -185,4 +189,13 @@ License.
 	<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 	<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 </details>
+
+### Availability
+
+
+<table>
+	<tr><td>Source code</td> 			<td><a href='https://github.com/readwritetools/rwt-search'>github</a></td></tr>
+	<tr><td>Package installation</td> <td><a href='https://www.npmjs.com/package/rwt-search'>NPM</a></td></tr>
+	<tr><td>Documentation</td> 		<td><a href='https://hub.readwritetools.com/components/search.blue'>Read Write Hub</a></td></tr>
+</table>
 
