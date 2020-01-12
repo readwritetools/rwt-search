@@ -132,12 +132,9 @@ export default class RwtSearch extends HTMLElement {
 
 	//^ Get the user-specified shortcut key. This will be used to open the dialog.
 	//  Valid values are "F1", "F2", etc., specified with the *shortcut attribute on the custom element
-	//  Default value is "F4"
 	initializeShortcutKey() {
 		if (this.hasAttribute('shortcut'))
 			this.shortcutKey = this.getAttribute('shortcut');
-		else
-			this.shortcutKey = 'F4';
 	}
 
 	//-------------------------------------------------------------------------
@@ -158,7 +155,7 @@ export default class RwtSearch extends HTMLElement {
 			event.stopPropagation();
 		}
 		// like 'F1', 'F2', etc
-		if (event.key == this.shortcutKey) {
+		if (event.key == this.shortcutKey && this.shortcutKey != null) {
 			this.toggleDialog();
 			event.stopPropagation();
 			event.preventDefault();
