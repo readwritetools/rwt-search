@@ -260,12 +260,16 @@ export default class RwtSearch extends HTMLElement {
 	// user has clicked on one of the lookahead words
 	// replace the last word of the user's input with the clicked word
 	onClickWordButton(event) {
+		event.stopPropagation();
 		var word = event.target.innerText;
 		var fullText = this.userRequest.value;
 		var lastSpace = fullText.lastIndexOf(' ');
 		var keep = (lastSpace == -1) ? '' : fullText.substr(0, lastSpace+1);	// keep space between words
 		this.userRequest.value = keep + word + ' '; 
 		this.userRequest.focus();
+		
+		// then immediately perform a search with everything in the user request textbox
+		this.onClickSearch();
 	}
 	
 	// search for documents matching the user's input
@@ -313,8 +317,12 @@ export default class RwtSearch extends HTMLElement {
 			for (let i=0; i < documentIndexes.length; i++) {
 				var docID = RwtSearch.nextDocID++;
 				var dr = this.ternWords.getDocumentRef(documentIndexes[i]);
+				
+				var queryString = searchWords.map(word => encodeURIComponent(word)).join('+');
+				var href= `${dr.hostPath}?query=${queryString}`;				
+				
 				html +=
-					`<a href='${dr.hostPath}' id='doc${docID}' tabindex=504>
+					`<a href='${href}' id='doc${docID}' tabindex=504>
 						<p> <span class='title'>${dr.title}</span> <span class='description'>${dr.description}</span></p>
 						<p class='url'>${dr.hostPath}	</p>
 					</a>`;
