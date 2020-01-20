@@ -37,7 +37,9 @@
 
 	/* custom element variables */	
 	--width: 70vw;
-	--height: 85vh;
+	--height: 75vh;
+	--bottom: 1rem;
+	--right: 1rem;
 
 	/* calculated sizing */
 	--caption-bar-height: 1.5rem;
@@ -48,14 +50,12 @@
 /* ---------- dialog frame ---------- */
 #search-dialog {
 	position: fixed;
-	bottom: 3rem;
-	right: 3rem;
+	bottom: var(--bottom);
+	right: var(--right);
 	width: var(--width);
 	max-width: 40rem;
-	min-width: 25rem;
 	height: var(--height);
 	max-height: 40rem;
-	min-height: 11rem;	
 	box-sizing: border-box;
 	background-color: var(--background);
 	border-width: 1px;
