@@ -136,10 +136,10 @@ variables:
 
 ```css
 rwt-search {
-    --bottom: 4rem;
-    --left: 2rem;
     --width: 70vw;
-    --height: 50vh;
+    --height: 75vh;
+    --bottom: 1rem;
+    --right: 1rem;
 }
 ```
 
@@ -151,8 +151,9 @@ to override the variables' defaults:
 ```css
 rwt-search {
     --color: var(--white);
-    --accent-color1: var(--yellow);
-    --accent-color2: var(--js-blue);
+    --accent-color1: var(--pure-white);
+    --accent-color2: var(--yellow);
+    --accent-color3: var(--js-blue);
     --background: var(--black);
     --accent-background1: var(--medium-black);
     --accent-background2: var(--pure-black);
