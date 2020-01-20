@@ -15,7 +15,7 @@
 div#search-dialog ^display:none {
 	div #caption-bar {
 		p#caption Search
-		button#close-button X
+		button #close-button ✕
 	}
 	div #user-area {
 		input#user-request *tabindex=501 *placeholder=search *spellcheck=false
