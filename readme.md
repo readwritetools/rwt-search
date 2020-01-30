@@ -42,8 +42,10 @@ lookups as the user types, guiding the user towards better results.
 #### Prerequisites
 
 The <span>rwt-search</span> web component works in any browser that
-supports modern W3C standards. It has no other prerequisites. Distribution and
-installation are done with either NPM or via Github.
+supports modern W3C standards. Templates are written using  notation, which can
+be compiled into HTML using the free <a href='https://hub.readwritetools.com/desktop/rwview.blue'>Read Write View</a>
+desktop app. It has no other prerequisites. Distribution and installation are
+done with either NPM or via Github.
 
 #### Installation using NPM
 
