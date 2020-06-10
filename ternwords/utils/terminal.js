@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// File:         bifurcate/src/terminal.namespace.js
+// File:         rwt-search/ternwords/utils/terminal.namespace.js
 // Language:     ECMAScript 2015
 // Copyright:    Joe Honton © 2018
 // License:      CC-BY-NC-ND 4.0

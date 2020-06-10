@@ -14,10 +14,13 @@ import TernWords     	from './ternwords/tern-words.class.js';
 
 export default class RwtSearch extends HTMLElement {
 
-	// The elementInstance is used to distinguish between multiple instances of this custom element
-	static elementInstance = 0;
+	static elementInstance = 1;
+	static htmlURL  = '/node_modules/rwt-kanji/rwt-kanji.blue';
+	static cssURL   = '/node_modules/rwt-kanji/rwt-kanji.css';
+	static htmlText = null;
+	static cssText  = null;
 	static nextWordID = 1;
-	static nextDocID = 1;
+	static nextDocID  = 1;
 
 	constructor() {
 		super();
@@ -32,7 +35,7 @@ export default class RwtSearch extends HTMLElement {
 		
 		// properties
 		this.shortcutKey = null;
-		RwtSearch.elementInstance++;
+		this.instance = RwtSearch.elementInstance++;
 		this.collapseSender = `RwtSearch ${RwtSearch.elementInstance}`;
 
 		this.hasSitewords = false;					// sitewords data files has not yet been retrieved
@@ -45,64 +48,93 @@ export default class RwtSearch extends HTMLElement {
 	}
 
 	//-------------------------------------------------------------------------
-	// customElement life cycle callbacks
+	// customElement life cycle callback
 	//-------------------------------------------------------------------------
 	async connectedCallback() {		
-		// guard against possible call after this has been disconnected
 		if (!this.isConnected)
 			return;
 		
-		var htmlFragment = await this.fetchTemplate();
-		if (htmlFragment == null)
-			return;
-		
-		var styleElement = await this.fetchCSS();
-		if (styleElement == null)
-			return;
+		try {
+			var htmlFragment = await this.getHtmlFragment();
+			var styleElement = await this.getCssStyleElement();
 
-		// append the HTML and CSS to the custom element's shadow root
-		this.attachShadow({mode: 'open'});
-		this.shadowRoot.appendChild(htmlFragment); 
-		this.shadowRoot.appendChild(styleElement); 
-		
-		this.identifyChildren();
-		this.registerEventListeners();
-		this.initializeShortcutKey();
+			this.attachShadow({mode: 'open'});
+			this.shadowRoot.appendChild(htmlFragment); 
+			this.shadowRoot.appendChild(styleElement); 
+			
+			this.identifyChildren();
+			this.registerEventListeners();
+			this.initializeShortcutKey();
+		}
+		catch (err) {
+			console.log(err.message);
+		}
 	}
 	
 	//-------------------------------------------------------------------------
 	// initialization
 	//-------------------------------------------------------------------------
 
-	//^ Fetch the HTML template
-	//< returns a document-fragment suitable for appending to shadowRoot
-	//< returns null if server does not respond with 200 or 304
-	async fetchTemplate() {
-		var response = await fetch('/node_modules/rwt-search/rwt-search.blue', {cache: "no-cache", referrerPolicy: 'no-referrer'});		// send conditional request to server with ETag and If-None-Match
-		if (response.status != 200 && response.status != 304)
-			return null;
-		var templateText = await response.text();
-		
-		// create a template and turn its content into a document fragment
-		var template = document.createElement('template');
-		template.innerHTML = templateText;
-		return template.content;
-	}
-	
-	//^ Fetch the CSS styles and turn it into a style element
-	//< returns an style element suitable for appending to shadowRoot
-	//< returns null if server does not respond with 200 or 304
-	async fetchCSS() {
-		var response = await fetch('/node_modules/rwt-search/rwt-search.css', {cache: "no-cache", referrerPolicy: 'no-referrer'});
-		if (response.status != 200 && response.status != 304)
-			return null;
-		var css = await response.text();
 
-		var styleElement = document.createElement('style');
-		styleElement.innerHTML = css;
-		return styleElement;
+	// Only the first instance of this component fetches the HTML text from the server.
+	// All other instances wait for it to issue an 'html-template-ready' event.
+	// If this function is called when the first instance is still pending,
+	// it must wait upon receipt of the 'html-template-ready' event.
+	// If this function is called after the first instance has already fetched the HTML text,
+	// it will immediately issue its own 'html-template-ready' event.
+	// When the event is received, create an HTMLTemplateElement from the fetched HTML text,
+	// and resolve the promise with a DocumentFragment.
+	getHtmlFragment() {
+		return new Promise(async (resolve, reject) => {
+			
+			document.addEventListener('html-template-ready', () => {
+				var template = document.createElement('template');
+				template.innerHTML = RwtSearch.htmlText;
+				resolve(template.content);
+			});
+			
+			if (this.instance == 1) {
+				var response = await fetch(RwtSearch.htmlURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
+				if (response.status != 200 && response.status != 304) {
+					reject(new Error(`Request for ${RwtSearch.htmlURL} returned with ${response.status}`));
+					return;
+				}
+				RwtSearch.htmlText = await response.text();
+				document.dispatchEvent(new Event('html-template-ready'));
+			}
+			else if (RwtSearch.htmlText != null) {
+				document.dispatchEvent(new Event('html-template-ready'));
+			}
+		});
 	}
 	
+	// Use the same pattern to fetch the CSS text from the server
+	// When the 'css-text-ready' event is received, create an HTMLStyleElement from the fetched CSS text,
+	// and resolve the promise with that element.
+	getCssStyleElement() {
+		return new Promise(async (resolve, reject) => {
+
+			document.addEventListener('css-text-ready', () => {
+				var styleElement = document.createElement('style');
+				styleElement.innerHTML = RwtSearch.cssText;
+				resolve(styleElement);
+			});
+			
+			if (this.instance == 1) {
+				var response = await fetch(RwtSearch.cssURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
+				if (response.status != 200 && response.status != 304) {
+					reject(new Error(`Request for ${RwtSearch.cssURL} returned with ${response.status}`));
+					return;
+				}
+				RwtSearch.cssText = await response.text();
+				document.dispatchEvent(new Event('css-text-ready'));
+			}
+			else if (RwtSearch.cssText != null) {
+				document.dispatchEvent(new Event('css-text-ready'));
+			}
+		});
+	}
+		
 	//^ Identify this component's children
 	identifyChildren() {
 		this.dialog = this.shadowRoot.getElementById('search-dialog');

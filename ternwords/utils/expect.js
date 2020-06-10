@@ -1,15 +1,13 @@
 //=============================================================================
 //
-// File:         joezone/src/expect.js
+// File:         rwt=search/ternwords/utils/expect.js
 // Language:     ECMAScript 2015
-// Copyright:    Joe Honton © 2015
+// Copyright:    Joe Honton © 2020
 // License:      CC-BY-NC-ND 4.0
-// Initial date: Sep 13, 2015
+// Initial date: May 9, 2020
 // Contents:     Explicit type checking 
 //
 //=============================================================================
-
-import StackTrace from './stack-trace.class.js';
 
 //^ Check to make sure the given argument is of the expected type, and write an entry when it's not
 //> obj is the object to check
@@ -83,7 +81,7 @@ function logicMessage(message) {
 
 function expectMessage(message) {
 	message = message || '';
-	writeToConsoleOrStderr(`[*EXPECT*]${StackTrace.getFunctionName(4)} ${message}\n`);
+	writeToConsoleOrStderr(`[*EXPECT*]${getStackTraceFunctionName(4)} ${message}\n`);
 }
 
 //^ Send message to browser console or CLI stderr
@@ -96,3 +94,18 @@ function writeToConsoleOrStderr(message) {
 		throw new Error(message);
 }
 
+function getStackTraceFunctionName(depth) {
+	// create an Error object, but don't throw it
+	var stackTraceLine = (new Error).stack.split("\n")[depth];
+	
+	// extract the classname and member name from the backtrace (assuming the backtrace pattern adopted by Node.js)
+	var regex1 = /at (.*) ?\(/g;
+	var matches = regex1.exec(stackTraceLine);
+	var desiredOutput = '';
+	if (matches == null)
+		return stackTraceLine;
+	if (matches.length > 1)
+		desiredOutput += matches[1].trim();
+	desiredOutput = desiredOutput.padStart(30, ' ');
+	return `{${desiredOutput}}`;
+}
