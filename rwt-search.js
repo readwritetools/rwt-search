@@ -15,8 +15,8 @@ import TernWords     	from './ternwords/tern-words.class.js';
 export default class RwtSearch extends HTMLElement {
 
 	static elementInstance = 1;
-	static htmlURL  = '/node_modules/rwt-kanji/rwt-kanji.blue';
-	static cssURL   = '/node_modules/rwt-kanji/rwt-kanji.css';
+	static htmlURL  = '/node_modules/rwt-search/rwt-search.blue';
+	static cssURL   = '/node_modules/rwt-search/rwt-search.css';
 	static htmlText = null;
 	static cssText  = null;
 	static nextWordID = 1;
