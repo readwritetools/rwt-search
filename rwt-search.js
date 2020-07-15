@@ -18,7 +18,7 @@ const Static = {
 	htmlURL:          '/node_modules/rwt-search/rwt-search.blue',
 	cssURL:           '/node_modules/rwt-search/rwt-search.css',
 	htmlText:         null,
-	cssText:          null
+	cssText:          null,
 	nextWordID:       1,
 	nextDocID:        1
 };
