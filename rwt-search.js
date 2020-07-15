@@ -12,18 +12,31 @@
 import TextInterface	from './ternwords/text-interface.class.js';
 import TernWords     	from './ternwords/tern-words.class.js';
 
-export default class RwtSearch extends HTMLElement {
+const Static = {
+	componentName:    'rwt-search',
+	elementInstance:  1,
+	htmlURL:          '/node_modules/rwt-search/rwt-search.blue',
+	cssURL:           '/node_modules/rwt-search/rwt-search.css',
+	htmlText:         null,
+	cssText:          null
+	nextWordID:       1,
+	nextDocID:        1
+};
 
-	static elementInstance = 1;
-	static htmlURL  = '/node_modules/rwt-search/rwt-search.blue';
-	static cssURL   = '/node_modules/rwt-search/rwt-search.css';
-	static htmlText = null;
-	static cssText  = null;
-	static nextWordID = 1;
-	static nextDocID  = 1;
+Object.seal(Static);
+
+export default class RwtSearch extends HTMLElement {
 
 	constructor() {
 		super();
+
+		// guardrails
+		this.instance = Static.elementInstance++;
+		this.isComponentLoaded = false;
+
+		// properties
+		this.collapseSender = `${Static.componentName} ${this.instance}`;
+		this.shortcutKey = null;
 
 		// child elements
 		this.dialog = null;
@@ -33,11 +46,7 @@ export default class RwtSearch extends HTMLElement {
 		this.matchWords = null;
 		this.matchDocs = null;
 		
-		// properties
-		this.shortcutKey = null;
-		this.instance = RwtSearch.elementInstance++;
-		this.collapseSender = `RwtSearch ${this.instance}`;
-
+		// sitewords
 		this.hasSitewords = false;					// sitewords data files has not yet been retrieved
 		this.hasTernarySearchTree = false;			// Ternary Search Trie not been built yet
 		this.textInterface = null;					// Ternary Search Trie text interface
@@ -65,6 +74,7 @@ export default class RwtSearch extends HTMLElement {
 			this.identifyChildren();
 			this.registerEventListeners();
 			this.initializeShortcutKey();
+			this.sendComponentLoaded();
 		}
 		catch (err) {
 			console.log(err.message);
@@ -85,24 +95,24 @@ export default class RwtSearch extends HTMLElement {
 	// and resolve the promise with a DocumentFragment.
 	getHtmlFragment() {
 		return new Promise(async (resolve, reject) => {
-			var htmlTemplateReady = `RwtSearch-html-template-ready`;
+			var htmlTemplateReady = `${Static.componentName}-html-template-ready`;
 			
 			document.addEventListener(htmlTemplateReady, () => {
 				var template = document.createElement('template');
-				template.innerHTML = RwtSearch.htmlText;
+				template.innerHTML = Static.htmlText;
 				resolve(template.content);
 			});
 			
 			if (this.instance == 1) {
-				var response = await fetch(RwtSearch.htmlURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
+				var response = await fetch(Static.htmlURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
 				if (response.status != 200 && response.status != 304) {
-					reject(new Error(`Request for ${RwtSearch.htmlURL} returned with ${response.status}`));
+					reject(new Error(`Request for ${Static.htmlURL} returned with ${response.status}`));
 					return;
 				}
-				RwtSearch.htmlText = await response.text();
+				Static.htmlText = await response.text();
 				document.dispatchEvent(new Event(htmlTemplateReady));
 			}
-			else if (RwtSearch.htmlText != null) {
+			else if (Static.htmlText != null) {
 				document.dispatchEvent(new Event(htmlTemplateReady));
 			}
 		});
@@ -113,24 +123,24 @@ export default class RwtSearch extends HTMLElement {
 	// and resolve the promise with that element.
 	getCssStyleElement() {
 		return new Promise(async (resolve, reject) => {
-			var cssTextReady = `RwtSearch-css-text-ready`;
+			var cssTextReady = `${Static.componentName}-css-text-ready`;
 
 			document.addEventListener(cssTextReady, () => {
 				var styleElement = document.createElement('style');
-				styleElement.innerHTML = RwtSearch.cssText;
+				styleElement.innerHTML = Static.cssText;
 				resolve(styleElement);
 			});
 			
 			if (this.instance == 1) {
-				var response = await fetch(RwtSearch.cssURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
+				var response = await fetch(Static.cssURL, {cache: "no-cache", referrerPolicy: 'no-referrer'});
 				if (response.status != 200 && response.status != 304) {
-					reject(new Error(`Request for ${RwtSearch.cssURL} returned with ${response.status}`));
+					reject(new Error(`Request for ${Static.cssURL} returned with ${response.status}`));
 					return;
 				}
-				RwtSearch.cssText = await response.text();
+				Static.cssText = await response.text();
 				document.dispatchEvent(new Event(cssTextReady));
 			}
-			else if (RwtSearch.cssText != null) {
+			else if (Static.cssText != null) {
 				document.dispatchEvent(new Event(cssTextReady));
 			}
 		});
@@ -170,6 +180,22 @@ export default class RwtSearch extends HTMLElement {
 			this.shortcutKey = this.getAttribute('shortcut');
 	}
 
+	//^ Inform the document's custom element that it is ready for programmatic use 
+	sendComponentLoaded() {
+		this.isComponentLoaded = true;
+		this.dispatchEvent(new Event('component-loaded', {bubbles: true}));
+	}
+
+	//^ A Promise that resolves when the component is loaded
+	waitOnLoading() {
+		return new Promise((resolve) => {
+			if (this.isComponentLoaded == true)
+				resolve();
+			else
+				this.addEventListener('component-loaded', resolve);
+		});
+	}
+	
 	//-------------------------------------------------------------------------
 	// document events
 	//-------------------------------------------------------------------------
@@ -261,7 +287,7 @@ export default class RwtSearch extends HTMLElement {
 		var html = '';
 		var buttonIDs = new Array();
 		for (let i=0; i < words.length; i++) {
-			var buttonID = `word${RwtSearch.nextWordID++}`;
+			var buttonID = `word${Static.nextWordID++}`;
 			buttonIDs.push(buttonID);
 			html += `<button id='${buttonID}' class='match' tabindex='501'>${words[i]}</button>`;
 		}
@@ -319,7 +345,7 @@ export default class RwtSearch extends HTMLElement {
 		searchWords = searchWords.filter(word => word.trim().length > 0);
 		
 		if (searchWords.length == 0) {
-			var docID = RwtSearch.nextDocID++;
+			var docID = Static.nextDocID++;
 			var url = `${document.location.protocol}//${document.location.host}`;
 			var html = `
 				<a href='${url}' id='doc${docID}' tabindex=504>
@@ -335,7 +361,7 @@ export default class RwtSearch extends HTMLElement {
 		var documentIndexes = this.ternWords.multiWordSearch(searchWords, maxMatchCount);
 
 		if (documentIndexes.length == 0) {
-			var docID = RwtSearch.nextDocID++;
+			var docID = Static.nextDocID++;
 			var url = `${document.location.protocol}//${document.location.host}`;
 			var html = `
 				<a href='${url}' id='doc${docID}' tabindex=504>
@@ -347,7 +373,7 @@ export default class RwtSearch extends HTMLElement {
 		else {
 			var html = '';
 			for (let i=0; i < documentIndexes.length; i++) {
-				var docID = RwtSearch.nextDocID++;
+				var docID = Static.nextDocID++;
 				var dr = this.ternWords.getDocumentRef(documentIndexes[i]);
 				
 				var queryString = searchWords.map(word => encodeURIComponent(word)).join('+');
@@ -403,7 +429,7 @@ export default class RwtSearch extends HTMLElement {
 			if (idStr.indexOf('word') == 0) {
 				var id = parseInt(idStr.substr(4));										// 6
 				id++;
-				if (id < RwtSearch.nextWordID) {
+				if (id < Static.nextWordID) {
 					var prevButton = this.shadowRoot.getElementById(`word${id}`);		// 'word6'
 					if (prevButton != null && prevButton.tagName.toLowerCase() == 'button') {
 						prevButton.focus();
@@ -448,7 +474,7 @@ export default class RwtSearch extends HTMLElement {
 			if (idStr.indexOf('doc') == 0) {
 				var id = parseInt(idStr.substr(3));										// 5
 				id++;
-				if (id < RwtSearch.nextDocID) {
+				if (id < Static.nextDocID) {
 					var prevAnchor = this.shadowRoot.getElementById(`doc${id}`);		// 'doc6'
 					if (prevAnchor != null && prevAnchor.tagName.toLowerCase() == 'a') {
 						prevAnchor.focus();
@@ -576,5 +602,5 @@ export default class RwtSearch extends HTMLElement {
 	}
 }
 
-window.customElements.define('rwt-search', RwtSearch);
+window.customElements.define(Static.componentName, RwtSearch);
 
