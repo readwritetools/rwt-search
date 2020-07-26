@@ -29,7 +29,6 @@
   "files": [
     "rwt-search.blue",
     "rwt-search.css",
-    "rwt-search.js",
-    "ternwords/*"
+    "rwt-search.js"
   ]
 }
