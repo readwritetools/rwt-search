@@ -9,8 +9,8 @@
 //
 //=============================================================================
 
-import TextInterface	from './ternwords/text-interface.class.js';
-import TernWords     	from './ternwords/tern-words.class.js';
+import TextInterface	from './node_modules/ternwords/esm/text-interface.class.js';
+import TernWords     	from './node_modules/ternwords/esm/tern-words.class.js';
 
 const Static = {
 	componentName:    'rwt-search',
@@ -377,12 +377,12 @@ export default class RwtSearch extends HTMLElement {
 				var dr = this.ternWords.getDocumentRef(documentIndexes[i]);
 				
 				var queryString = searchWords.map(word => encodeURIComponent(word)).join('+');
-				var href= `${dr.hostPath}?query=${queryString}`;				
+				var href= `${dr.url}?query=${queryString}`;				
 				
 				html +=
 					`<a href='${href}' id='doc${docID}' tabindex=504>
 						<p> <span class='title'>${dr.title}</span> <span class='description'>${dr.description}</span></p>
-						<p class='url'>${dr.hostPath}	</p>
+						<p class='url'>${dr.url}	</p>
 					</a>`;
 			}
 			this.matchDocs.innerHTML = html;

@@ -12,6 +12,9 @@
   "scripts": {
     "bump-version": "npm version patch && git push && git push --tags"
   },
+  "dependencies": {
+    "ternwords": "^1.0.7"
+  },
   "keywords": [
     "web-component",
     "custom-element",
