@@ -9,8 +9,8 @@
 //
 //=============================================================================
 
-import TextInterface	from './node_modules/ternwords/esm/text-interface.class.js';
-import TernWords     	from './node_modules/ternwords/esm/tern-words.class.js';
+import TextInterface	from '../ternwords/esm/text-interface.class.js';
+import TernWords     	from '../ternwords/esm/tern-words.class.js';
 
 const Static = {
 	componentName:    'rwt-search',
