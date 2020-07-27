@@ -1,6 +1,6 @@
 {
   "name": "rwt-search",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "Full text search across a website, a W3C standard Web Component",
   "author": "Read Write Tools",
   "license": "MIT",
