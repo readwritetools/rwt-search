@@ -556,16 +556,28 @@ export default class RwtSearch extends HTMLElement {
 	// Obtain the data, as a textBlob, from localStorage
 	async initializeTernarySearchTrie() {		
 		if (this.hasTernarySearchTree == false) {
-			var textBlob = localStorage.getItem('sitewords-data');
-			this.textInterface = new TextInterface();
-			this.ternWords = new TernWords();
-			this.textInterface.readSiteWords(textBlob, this.ternWords);
-			this.hasTernarySearchTree = true;
-			
-			// restore the user's most recent search request
-			var savedUserRequest = localStorage.getItem('rwsearch-request');
-			this.userRequest.value = savedUserRequest;
-			this.onClickSearch();
+
+			// brief message while ternary trie is being built
+			var docID = Static.nextDocID++;
+			var url = `${document.location.protocol}//${document.location.host}`;
+			var html = `
+				<a href='${url}' id='doc${docID}' tabindex=504>
+					<p><span class='title'>Initializing </span> <span class='description'> Enter your search terms above.</span></p>
+					<p class='url'>${url}</p>
+				</a>`;
+			this.matchDocs.innerHTML = html;
+			window.setTimeout(() => {
+				var textBlob = localStorage.getItem('sitewords-data');
+				this.textInterface = new TextInterface();
+				this.ternWords = new TernWords();
+				this.textInterface.readSiteWords(textBlob, this.ternWords);
+				this.hasTernarySearchTree = true;
+				
+				// restore the user's most recent search request
+				var savedUserRequest = localStorage.getItem('rwsearch-request');
+				this.userRequest.value = savedUserRequest;
+				this.onClickSearch();
+			}, 100);
 		}
 	}
 
