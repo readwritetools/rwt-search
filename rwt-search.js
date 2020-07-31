@@ -365,7 +365,7 @@ export default class RwtSearch extends HTMLElement {
 			var url = `${document.location.protocol}//${document.location.host}`;
 			var html = `
 				<a href='${url}' id='doc${docID}' tabindex=504>
-					<p> <span class='description'>No documents found for the search terms</span><span class='search-terms'>${fullText}</span> <span class='description'>Try something else.</span></p>
+					<p><span class='description'>No documents found for the search terms</span><span class='search-terms'>${fullText}</span> <span class='description'>Try something else.</span></p>
 					<p class='url'>${url}</p>
 				</a>`;
 			this.matchDocs.innerHTML = html;
@@ -378,16 +378,33 @@ export default class RwtSearch extends HTMLElement {
 				
 				var queryString = searchWords.map(word => encodeURIComponent(word)).join('+');
 				var href= `${dr.url}?query=${queryString}`;				
+				var lastmod = this.formatDate(dr.lastmod);
 				
 				html +=
 					`<a href='${href}' id='doc${docID}' tabindex=504>
-						<p> <span class='lastmod'>${dr.lastmod}</span> <span class='title'>${dr.title}</span> <span class='description'>${dr.description}</span></p>
-						<p class='url'>${dr.url}	</p>
+						<p><span class='lastmod'>${lastmod}</span> <span class='title'>${dr.title}</span> <span class='description'>${dr.description}</span></p>
+						<p class='url'>${dr.url}</p>
 					</a>`;
 			}
 			this.matchDocs.innerHTML = html;
 			this.matchDocs.querySelector('a').focus();		// place focus on the first search result
 		}
+	}
+	
+	//> lastmod YYYY-MM-DD
+	//< Mon DD, YYYY
+	formatDate(lastmod) {
+		if (lastmod.length == 10 && lastmod.charAt(4) == '-' && lastmod.charAt(7) == '-') {
+			var YYYY = lastmod.substr(0,4);
+			var MM   = parseInt(lastmod.substr(5,2)) - 1;
+			var DD   = lastmod.substr(8,2);
+			
+			var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+			var month = months[MM];
+			return `${month} ${DD}, ${YYYY}`;
+		}
+		else
+			return '';
 	}
 	
 	// start the search when the user presses <Enter> when inside the text input area
