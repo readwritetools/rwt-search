@@ -198,6 +198,10 @@
 	margin: 0;
 	line-height: 1.4;
 }
+#match-docs .lastmod {
+	color: var(--gray);
+	padding-right: 1rem;
+}
 #match-docs .title {
 	color: var(--accent-color2);
 	padding-right: 1rem;
