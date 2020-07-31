@@ -382,8 +382,8 @@ export default class RwtSearch extends HTMLElement {
 				
 				html +=
 					`<a href='${href}' id='doc${docID}' tabindex=504>
-						<p><span class='lastmod'>${lastmod}</span> <span class='title'>${dr.title}</span> <span class='description'>${dr.description}</span></p>
-						<p class='url'>${dr.url}</p>
+						<p><span class='title'>${dr.title}</span> <span class='description'>${dr.description}</span></p>
+						<p><span class='lastmod'>${lastmod}</span> <span class='url'>${dr.url}</span></p>
 					</a>`;
 			}
 			this.matchDocs.innerHTML = html;

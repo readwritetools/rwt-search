@@ -198,16 +198,20 @@
 	margin: 0;
 	line-height: 1.4;
 }
-#match-docs .lastmod {
-	color: var(--gray);
-	padding-right: 0.25rem;
-}
 #match-docs .title {
 	color: var(--accent-color2);
 	padding-right: 1rem;
 }
 #match-docs .description {
 	color: var(--color);
+}
+#match-docs .lastmod {
+	color: var(--gray);
+	padding-right: 0.25rem;
+}
+#match-docs .url {
+	color: var(--accent-color3);
+	font-size: 0.8rem;
 }
 #match-docs .search-terms {
 	font-size: 1rem;
@@ -218,9 +222,5 @@
 	margin: 0.5rem 0 0.5rem 0.5rem;
 	padding: 0 0.5rem;
 
-}
-#match-docs .url {
-	color: var(--accent-color3);
-	font-size: 0.8rem;
 }
 
