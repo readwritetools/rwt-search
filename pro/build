@@ -11,6 +11,7 @@
 =============================================================================*/
 
 run {
+	sh renata prepare			// Install/refresh node dependencies
 	sh renata exim				// Convert .blue to .md
 	sh renata deploy			// Check for pending work, commit, bump version, push repo
 	sh renata publish			// publish to NPM
