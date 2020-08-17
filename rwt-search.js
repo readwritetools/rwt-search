@@ -168,7 +168,7 @@ export default class RwtSearch extends HTMLElement {
 		this.closeButton.addEventListener('click', this.onClickClose.bind(this));
 		this.userRequest.addEventListener('input', this.onChangeUserRequest.bind(this));
 		this.userRequest.addEventListener('keydown', this.onKeydownUserRequest.bind(this));
-		this.searchButton.addEventListener('click', this.onClickSearch.bind(this));
+		this.searchButton.addEventListener('click', this.onClickSearch.bind(this, true));
 		this.matchWords.addEventListener('keydown', this.onKeydownMatchWords.bind(this));
 		this.matchDocs.addEventListener('keydown', this.onKeydownMatchDocs.bind(this));
 	}
@@ -266,9 +266,12 @@ export default class RwtSearch extends HTMLElement {
 		// remove previous timout
 		clearTimeout(this.userInputTimer);
 		
-		// wait 1/4 second before initiating lookup
-		var callback = this.lookAheadMatches.bind(this);
-		this.userInputTimer = setTimeout(callback, 250);
+		// if the ternary trie is fully loaded,
+		// wait 1/4 second to dampen the lookahead while the user is typing
+		if (this.hasTernarySearchTree) {
+			var callback = this.lookAheadMatches.bind(this);
+			this.userInputTimer = setTimeout(callback, 250);
+		}
 	}
 	
 	// get the last word of the user's input, and find the best five words that start with that prefix
@@ -327,11 +330,13 @@ export default class RwtSearch extends HTMLElement {
 		this.userRequest.focus();
 		
 		// then immediately perform a search with everything in the user request textbox
-		this.onClickSearch();
+		this.onClickSearch(true);
 	}
 	
 	// search for documents matching the user's input
-	onClickSearch() {
+	//> focusFirstAnchor is true to set the focus to the first anchor element in the matchDos
+	onClickSearch(focusFirstAnchor) {
+		
 		var fullText = this.userRequest.value;
 
 		// save the search request to localStorage so that the next page can restore it
@@ -387,7 +392,8 @@ export default class RwtSearch extends HTMLElement {
 					</a>`;
 			}
 			this.matchDocs.innerHTML = html;
-			this.matchDocs.querySelector('a').focus();		// place focus on the first search result
+			if (focusFirstAnchor)
+				this.matchDocs.querySelector('a').focus();		// place focus on the first search result
 		}
 	}
 	
@@ -406,12 +412,12 @@ export default class RwtSearch extends HTMLElement {
 		else
 			return '';
 	}
-	
+
 	// start the search when the user presses <Enter> when inside the text input area
 	onKeydownUserRequest(event) {
 		if (event.key == 'Enter') {
 			event.stopPropagation();
-			this.onClickSearch();
+			this.onClickSearch(true);
 		}
 		else if (event.key == 'ArrowDown') {
 			var el = this.matchWords.querySelector('button');	// place focus on the first word button
@@ -590,10 +596,17 @@ export default class RwtSearch extends HTMLElement {
 				this.textInterface.readSiteWords(textBlob, this.ternWords);
 				this.hasTernarySearchTree = true;
 				
-				// restore the user's most recent search request
-				var savedUserRequest = localStorage.getItem('rwsearch-request');
-				this.userRequest.value = savedUserRequest;
-				this.onClickSearch();
+				window.setTimeout(() => {
+					// see if the user has typed something while the ternary trie was initializing,
+					// and if not, grab the last saved search request
+					if (this.userRequest.value == '') {
+						var savedUserRequest = localStorage.getItem('rwsearch-request');
+						this.userRequest.value = savedUserRequest;
+					}
+					this.onClickSearch(false);
+				}, 100);
+				
+				
 			}, 100);
 		}
 	}
@@ -607,13 +620,12 @@ export default class RwtSearch extends HTMLElement {
 		if (this.dialog.style.display == 'none') {
 			setTimeout( this.showDialog(), 0);
 
-			// lazy loading of sitewords data, and Ternary Search Trie
-			await this.retrieveSitewords();
-			await this.initializeTernarySearchTrie();
-			
-			// reset focus to user input, overriding what onClickSearch just did 
 			this.userRequest.select();
 			this.userRequest.focus();
+
+			// lazy loading of sitewords data, and Ternary Search Trie
+			await this.retrieveSitewords();
+			this.initializeTernarySearchTrie();
 		}
 		else
 			this.hideDialog();
