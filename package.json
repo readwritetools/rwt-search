@@ -13,7 +13,7 @@
     "bump-version": "npm version patch && git push && git push --tags"
   },
   "dependencies": {
-    "ternwords": "^1.0.8"
+    "ternwords": "^1.0.9"
   },
   "keywords": [
     "web-component",
