@@ -8,10 +8,14 @@
 
 
 
+
+
 <figure>
 	<img src='/img/components/search/search-unsplash-agence-olloweb.jpg' width='100%' />
 	<figcaption></figcaption>
 </figure>
+
+##### Open Source DOM Component
 
 # Search
 
@@ -25,25 +29,32 @@
 
 <table>
 	<tr><th>Abstract</th></tr>
-	<tr><td>The <span class=product>rwt-search</span> web component is the standard user interface for the Site Search feature of the <a href='https://hub.readwritetools.com/enterprise/rwserve.blue'>RWSERVE</a> HTTP/2 server. This search dialog box has look-ahead word autofill to guide users in their search for locally hosted documents.</td></tr>
+	<tr><td>The <span class=product>rwt-search</span> DOM component is the standard user interface for the Site Search feature of the <a href='https://hub.readwritetools.com/enterprise/rwserve.blue'>RWSERVE</a> HTTP/2 server. This search dialog box has look-ahead word autofill to guide users in their search for locally hosted documents.</td></tr>
 </table>
 
 ### Motivation
 
 The SEMWORDS and SITEWORDS tools (see <a href='https://hub.readwritetools.com/enterprise/site-search.blue'>Site Search</a>
 ) produce an index of all the words used in a given website. That index is used
-by this web component to provide full text searching on a local basis, without
+by this DOM component to provide full text searching on a local basis, without
 relying on AJAX or direct server interaction.
 
-This web component handles the initial fetch of the site index, caching it to
+This DOM component handles the initial fetch of the site index, caching it to
 the user's local-storage for ready use across all of the website's documents.
 
-Internally, the web component uses a *ternary search trie* to provide partial word
+Internally, the DOM component uses a *ternary search trie* to provide partial word
 lookups as the user types, guiding the user towards better results.
+
+#### In the wild
+
+To see an example of this component in use, visit the <a href='https://readwritestack.com/'>READ WRITE STACK</a>
+website and press <kbd>F7</kbd> "Search". To understand what's going on under the
+hood, use the browser's inspector to view the HTML source code and network
+activity, and follow along as you read this documentation.
 
 #### Prerequisites
 
-The <span>rwt-search</span> web component works in any browser that
+The <span>rwt-search</span> DOM component works in any browser that
 supports modern W3C standards. Templates are written using <span>BLUE</span><span>
 PHRASE</span> notation, which can be compiled into HTML using the free <a href='https://hub.readwritetools.com/desktop/rwview.blue'>Read Write View</a>
 desktop app. It has no other prerequisites. Distribution and installation are
@@ -68,14 +79,14 @@ on your development computer.
 npm init
 ```
 
-   * Download and install the web component using the command:
+   * Download and install the DOM component using the command:
 ```bash
 npm install rwt-search
 ```
 
 
-Important note: This web component uses Node.js and NPM and `package.json` as a
-convenient *distribution and installation* mechanism. The web component itself
+Important note: This DOM component uses Node.js and NPM and `package.json` as a
+convenient *distribution and installation* mechanism. The DOM component itself
 does not need them.
 
 #### Installation using Github
@@ -83,13 +94,13 @@ does not need them.
 If you are more comfortable using Github for installation, follow these steps:
 
    * Create a directory `node_modules` in the root of your web project.
-   * Clone the <span>rwt-search</span> web component into it using the command:
+   * Clone the <span>rwt-search</span> DOM component into it using the command:
 ```bash
 git clone https://github.com/readwritetools/rwt-search.git
 ```
 
 
-### Using the web component
+### Using the DOM component
 
 After installation, you need to add four things to your HTML page to make use of
 it.
@@ -169,7 +180,7 @@ rwt-search {
 ### Internals
 
 The browser's local-storage area is used to cache the sitewords file and the
-user's most recent search terms. These keys are set by the web component:
+user's most recent search terms. These keys are set by the DOM component:
 
 
 <table>
@@ -190,9 +201,22 @@ The component issues life-cycle events.
 	<dd>Sent when the component is fully loaded and ready to be used. As a convenience you can use the <code>waitOnLoading()</code> method which returns a promise that resolves when the <code>component-loaded</code> event is received. Call this asynchronously with <code>await</code>.</dd>
 </dl>
 
+---
+
+### Reference
+
+
+<table>
+	<tr><td><img src='/img/read-write-hub.png' alt='DOM components logo' width=40 /></td>	<td>Documentation</td> 		<td><a href='https://hub.readwritetools.com/components/search.blue'>READ WRITE HUB</a></td></tr>
+	<tr><td><img src='/img/git.png' alt='git logo' width=40 /></td>	<td>Source code</td> 			<td><a href='https://github.com/readwritetools/rwt-search'>github</a></td></tr>
+	<tr><td><img src='/img/dom-components.png' alt='DOM components logo' width=40 /></td>	<td>Component catalog</td> 	<td><a href='https://domcomponents.com/search.blue'>DOM COMPONENTS</a></td></tr>
+	<tr><td><img src='/img/npm.png' alt='npm logo' width=40 /></td>	<td>Package installation</td> <td><a href='https://www.npmjs.com/package/rwt-search'>npm</a></td></tr>
+	<tr><td><img src='/img/read-write-stack.png' alt='Read Write Stack logo' width=40 /></td>	<td>Publication venue</td>	<td><a href='https://readwritestack.com/components/search.blue'>READ WRITE STACK</a></td></tr>
+</table>
+
 ### License
 
-The <span>rwt-search</span> web component is licensed under the MIT
+The <span>rwt-search</span> DOM component is licensed under the MIT
 License.
 
 <img src='/img/blue-seal-mit.png' width=80 align=right />
@@ -204,13 +228,4 @@ License.
 	<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 	<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 </details>
-
-### Availability
-
-
-<table>
-	<tr><td>Source code</td> 			<td><a href='https://github.com/readwritetools/rwt-search'>github</a></td></tr>
-	<tr><td>Package installation</td> <td><a href='https://www.npmjs.com/package/rwt-search'>NPM</a></td></tr>
-	<tr><td>Documentation</td> 		<td><a href='https://hub.readwritetools.com/components/search.blue'>Read Write Hub</a></td></tr>
-</table>
 
