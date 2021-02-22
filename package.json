@@ -1,6 +1,6 @@
 {
   "name": "rwt-search",
-  "version": "1.0.39",
+  "version": "1.0.40",
   "description": "Full text search across a website, a standards-based DOM Component",
   "author": "Read Write Tools",
   "license": "see license.html",
