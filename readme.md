@@ -10,16 +10,17 @@
 
 
 
+
 <figure>
-	<img src='/img/components/search/search-unsplash-agence-olloweb.jpg' width='100%' />
+	<img src='/img/components/search/search-1500x750.jpg' width='100%' />
 	<figcaption></figcaption>
 </figure>
 
-##### Open Source DOM Component
+##### Premium DOM Component
 
-# Search
+# Site Search
 
-## Tenary Trie word look-ahead
+## Full text search with look-ahead autofill
 
 
 <address>
@@ -52,6 +53,8 @@ website and press <kbd>F7</kbd> "Search". To understand what's going on under th
 hood, use the browser's inspector to view the HTML source code and network
 activity, and follow along as you read this documentation.
 
+### Installation
+
 #### Prerequisites
 
 The <span>rwt-search</span> DOM component works in any browser that
@@ -60,45 +63,38 @@ PHRASE</span> notation, which can be compiled into HTML using the free <a href='
 desktop app. It has no other prerequisites. Distribution and installation are
 done with either NPM or via Github.
 
-#### Installation using NPM
-
-If you are familiar with Node.js and the `package.json` file, you'll be
-comfortable installing the component just using this command:
-
-```bash
-npm install rwt-search
-```
-
-If you are a front-end Web developer with no prior experience with NPM, follow
-these general steps:
-
-   * Install <a href='https://nodejs.org'>Node.js/NPM</a>
-on your development computer.
-   * Create a `package.json` file in the root of your web project using the command:
-```bash
-npm init
-```
-
-   * Download and install the DOM component using the command:
-```bash
-npm install rwt-search
-```
+#### Download
 
 
-Important note: This DOM component uses Node.js and NPM and `package.json` as a
-convenient *distribution and installation* mechanism. The DOM component itself
-does not need them.
+<details>
+	<summary>Download using NPM</summary>
+	<p><b>OPTION 1:</b> Familiar with Node.js and the <code>package.json</code> file?<br />Great. Install the component with this command:</p>
+	<pre lang=bash>
+npm install rwt-search<br />	</pre>
+	<p><b>OPTION 2:</b> No prior experience using NPM?<br />Just follow these general steps:</p>
+	<ul>
+		<li>Install <a href='https://nodejs.org'>Node.js/NPM</a> on your development computer.</li>
+		<li>Create a <code>package.json</code> file in the root of your web project using the command:</li>
+		<pre lang=bash>
+npm init<br />		</pre>
+		<li>Download and install the DOM component using the command:</li>
+		<pre lang=bash>
+npm install rwt-search<br />		</pre>
+	</ul>
+	<p style='font-size:0.9em'>Important note: This DOM component uses Node.js and NPM and <code>package.json</code> as a convenient <i>distribution and installation</i> mechanism. The DOM component itself does not need them.</p>
+</details>
 
-#### Installation using Github
 
-If you are more comfortable using Github for installation, follow these steps:
-
-   * Create a directory `node_modules` in the root of your web project.
-   * Clone the <span>rwt-search</span> DOM component into it using the command:
-```bash
-git clone https://github.com/readwritetools/rwt-search.git
-```
-
+<details>
+	<summary>Download using Github</summary>
+	<p>If you prefer using Github directly, simply follow these steps:</p>
+	<ul>
+		<li>Create a <code>node_modules</code> directory in the root of your web project.</li>
+		<li>Clone the <span class=product>rwt-search</span> DOM component into it using the command:</li>
+		<pre lang=bash>
+git clone https://github.com/readwritetools/rwt-search.git<br />		</pre>
+	</ul>
+</details>
 
 ### Using the DOM component
 
@@ -216,16 +212,56 @@ The component issues life-cycle events.
 
 ### License
 
-The <span>rwt-search</span> DOM component is licensed under the MIT
-License.
+The <span>rwt-search</span> DOM component is not freeware. After
+evaluating it and before using it in a public-facing website, eBook, mobile app,
+or desktop application, you must obtain a license from <a href='https://readwritetools.com/licensing.blue'>Read Write Tools</a>
+.
 
-<img src='/img/blue-seal-mit.png' width=80 align=right />
+<img src='/img/blue-seal-premium-software.png' width=80 align=right />
 
 <details>
-	<summary>MIT License</summary>
-	<p>Copyright © 2020 Read Write Tools.</p>
-	<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-	<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-	<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+	<summary>Site Search Software License Agreement</summary>
+	<ol>
+		<li>This Software License Agreement ("Agreement") is a legal contract between you and Read Write Tools ("RWT"). The "Materials" subject to this Agreement include the "Site Search" software and associated documentation.</li>
+		<li>By using these Materials, you agree to abide by the terms and conditions of this Agreement.</li>
+		<li>The Materials are protected by United States copyright law, and international treaties on intellectual property rights. The Materials are licensed, not sold to you, and can only be used in accordance with the terms of this Agreement. RWT is and remains the owner of all titles, rights and interests in the Materials, and RWT reserves all rights not specifically granted under this Agreement.</li>
+		<li>Subject to the terms of this Agreement, RWT hereby grants to you a limited, non-exclusive license to use the Materials subject to the following conditions:</li>
+		<ul>
+			<li>You may not distribute, publish, sub-license, sell, rent, or lease the Materials.</li>
+			<li>You may not decompile or reverse engineer any source code included in the software.</li>
+			<li>You may not modify or extend any source code included in the software.</li>
+			<li>Your license to use the software is limited to the purpose for which it was originally intended, and does not include permission to extract, link to, or use parts on a separate basis.</li>
+		</ul>
+		<li>Each paid license allows use of the Materials under one "Fair Use Setting". Separate usage requires the purchase of a separate license. Fair Use Settings include, but are not limited to: eBooks, mobile apps, desktop applications and websites. The determination of a Fair Use Setting is made at the sole discretion of RWT. For example, and not by way of limitation, a Fair Use Setting may be one of these:</li>
+		<ul>
+			<li>An eBook published under a single title and author.</li>
+			<li>A mobile app for distribution under a single app name.</li>
+			<li>A desktop application published under a single application name.</li>
+			<li>A website published under a single domain name. For this purpose, and by way of example, the domain names "alpha.example.com" and "beta.example.com" are considered to be separate websites.</li>
+			<li>A load-balanced collection of web servers, used to provide access to a single website under a single domain name.</li>
+		</ul>
+		<li>THE MATERIALS ARE PROVIDED BY READ WRITE TOOLS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL READ WRITE TOOLS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</li>
+		<li>This license is effective for a one year period from the date of purchase or until terminated by you or Read Write Tools. Continued use, publication, or distribution of the Materials after the one year period, under any of this Agreement's Fair Use Settings, is subject to the renewal of this license.</li>
+		<li>Products or services that you sell to third parties, during the valid license period of this Agreement and in compliance with the Fair Use Settings provision, may continue to be used by third parties after the effective period of your license.</li>
+		<li>If you decide not to renew this license, you must remove the software from any eBook, mobile app, desktop application, web page or other product or service where it is being used.</li>
+		<li>Without prejudice to any other rights, RWT may terminate your right to use the Materials if you fail to comply with the terms of this Agreement. In such event, you shall uninstall and delete all copies of the Materials.</li>
+		<li>This Agreement is governed by and interpreted in accordance with the laws of the State of California. If for any reason a court of competent jurisdiction finds any provision of the Agreement to be unenforceable, that provision will be enforced to the maximum extent possible to effectuate the intent of the parties and the remainder of the Agreement shall continue in full force and effect.</li>
+	</ol>
 </details>
+
+#### Activation
+
+To activate your license, copy the `rwt-registration-keys.js` file to the *root
+directory of your website*, providing the `customer-number` and `access-key` sent to
+your email address, and replacing `example.com` with your website's hostname.
+Follow this example:
+
+<pre>
+export default [{
+    "product-key": "rwt-search",
+    "registration": "example.com",
+    "customer-number": "CN-xxx-yyyyy",
+    "access-key": "AK-xxx-yyyyy"
+}]
+</pre>
 

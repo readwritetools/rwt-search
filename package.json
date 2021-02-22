@@ -3,14 +3,11 @@
   "version": "1.0.38",
   "description": "Full text search across a website, a standards-based DOM Component",
   "author": "Read Write Tools",
-  "license": "MIT",
+  "license": "see license.html",
   "module": "rwt-search.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/readwritetools/rwt-search.git"
-  },
-  "scripts": {
-    "bump-version": "npm version patch && git push && git push --tags"
   },
   "dependencies": {
     "ternwords": "^1.0.9"
@@ -27,8 +24,12 @@
   },
   "homepage": "https://hub.readwritetools.com/components/search.blue",
   "files": [
-    "rwt-search.blue",
+    "img",
+    "license.html",
+    "readme.md",
     "rwt-search.css",
-    "rwt-search.js"
+    "rwt-search.html",
+    "rwt-search.js",
+    "rwt-registration-keys.js"
   ]
 }
