@@ -30,7 +30,8 @@ export default class RwtSearch extends HTMLElement {
             this.attachShadow({
                 mode: 'open'
             }), this.shadowRoot.appendChild(t), this.shadowRoot.appendChild(e), this.identifyChildren(), 
-            this.registerEventListeners(), this.initializeShortcutKey(), this.sendComponentLoaded();
+            this.registerEventListeners(), this.initializeShortcutKey(), this.sendComponentLoaded(), 
+            this.validate();
         } catch (t) {
             console.log(t.message);
         }
@@ -42,12 +43,12 @@ export default class RwtSearch extends HTMLElement {
                 var e = document.createElement('template');
                 e.innerHTML = Static.htmlText, t(e.content);
             })), 1 == this.instance) {
-                var a = await fetch(Static.htmlURL, {
+                var o = await fetch(Static.htmlURL, {
                     cache: 'no-cache',
                     referrerPolicy: 'no-referrer'
                 });
-                if (200 != a.status && 304 != a.status) return void e(new Error(`Request for ${Static.htmlURL} returned with ${a.status}`));
-                Static.htmlText = await a.text(), document.dispatchEvent(new Event(s));
+                if (200 != o.status && 304 != o.status) return void e(new Error(`Request for ${Static.htmlURL} returned with ${o.status}`));
+                Static.htmlText = await o.text(), document.dispatchEvent(new Event(s));
             } else null != Static.htmlText && document.dispatchEvent(new Event(s));
         }));
     }
@@ -58,12 +59,12 @@ export default class RwtSearch extends HTMLElement {
                 var e = document.createElement('style');
                 e.innerHTML = Static.cssText, t(e);
             })), 1 == this.instance) {
-                var a = await fetch(Static.cssURL, {
+                var o = await fetch(Static.cssURL, {
                     cache: 'no-cache',
                     referrerPolicy: 'no-referrer'
                 });
-                if (200 != a.status && 304 != a.status) return void e(new Error(`Request for ${Static.cssURL} returned with ${a.status}`));
-                Static.cssText = await a.text(), document.dispatchEvent(new Event(s));
+                if (200 != o.status && 304 != o.status) return void e(new Error(`Request for ${Static.cssURL} returned with ${o.status}`));
+                Static.cssText = await o.text(), document.dispatchEvent(new Event(s));
             } else null != Static.cssText && document.dispatchEvent(new Event(s));
         }));
     }
@@ -125,13 +126,13 @@ export default class RwtSearch extends HTMLElement {
         }
     }
     lookAheadMatches() {
-        var t = this.userRequest.value, e = (t = t.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim()).lastIndexOf(' '), s = -1 == e ? t : t.substr(e + 1), a = this.getPrefixMatches(s), i = '', o = new Array;
-        for (let t = 0; t < a.length; t++) {
-            var n = 'word' + Static.nextWordID++;
-            o.push(n), i += `<button id='${n}' class='match' tabindex='501'>${a[t]}</button>`;
+        var t = this.userRequest.value, e = (t = t.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim()).lastIndexOf(' '), s = -1 == e ? t : t.substr(e + 1), o = this.getPrefixMatches(s), n = '', a = new Array;
+        for (let t = 0; t < o.length; t++) {
+            var i = 'word' + Static.nextWordID++;
+            a.push(i), n += `<button id='${i}' class='match' tabindex='501'>${o[t]}</button>`;
         }
-        this.matchWords.innerHTML = i;
-        for (let t = 0; t < o.length; t++) this.shadowRoot.getElementById(o[t]).addEventListener('click', this.onClickWordButton.bind(this));
+        this.matchWords.innerHTML = n;
+        for (let t = 0; t < a.length; t++) this.shadowRoot.getElementById(a[t]).addEventListener('click', this.onClickWordButton.bind(this));
     }
     getPrefixMatches(t) {
         var e = this.ternWords.getPrefixMatchesWeighted(t, 5);
@@ -141,24 +142,24 @@ export default class RwtSearch extends HTMLElement {
     }
     onClickWordButton(t) {
         t.stopPropagation();
-        var e = t.target.innerText, s = this.userRequest.value, a = s.lastIndexOf(' '), i = -1 == a ? '' : s.substr(0, a + 1);
-        this.userRequest.value = i + e + ' ', this.userRequest.focus(), this.onClickSearch(!0);
+        var e = t.target.innerText, s = this.userRequest.value, o = s.lastIndexOf(' '), n = -1 == o ? '' : s.substr(0, o + 1);
+        this.userRequest.value = n + e + ' ', this.userRequest.focus(), this.onClickSearch(!0);
     }
     onClickSearch(t) {
         var e = this.userRequest.value;
         localStorage.setItem('rwsearch-request', e);
         var s = (e = e.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')).split(' ');
         if (0 != (s = s.filter((t => t.trim().length > 0))).length) {
-            var a = this.ternWords.multiWordSearch(s, 10);
-            if (0 == a.length) {
+            var o = this.ternWords.multiWordSearch(s, 10);
+            if (0 == o.length) {
                 h = Static.nextDocID++, l = `\n\t\t\t\t<a href='${c = `${document.location.protocol}//${document.location.host}`}' id='doc${h}' tabindex=504>\n\t\t\t\t\t<p><span class='description'>No documents found for the search terms</span><span class='search-terms'>${e}</span> <span class='description'>Try something else.</span></p>\n\t\t\t\t\t<p class='url'>${c}</p>\n\t\t\t\t</a>`;
                 this.matchDocs.innerHTML = l;
             } else {
                 l = '';
-                for (let t = 0; t < a.length; t++) {
+                for (let t = 0; t < o.length; t++) {
                     h = Static.nextDocID++;
-                    var i = this.ternWords.getDocumentRef(a[t]), o = s.map((t => encodeURIComponent(t))).join('+'), n = `${i.url}?query=${o}`, r = this.formatDate(i.lastmod);
-                    l += `<a href='${n}' id='doc${h}' tabindex=504>\n\t\t\t\t\t\t<p><span class='title'>${i.title}</span> <span class='description'>${i.description}</span></p>\n\t\t\t\t\t\t<p><span class='lastmod'>${r}</span> <span class='url'>${i.url}</span></p>\n\t\t\t\t\t</a>`;
+                    var n = this.ternWords.getDocumentRef(o[t]), a = s.map((t => encodeURIComponent(t))).join('+'), i = `${n.url}?query=${a}`, r = this.formatDate(n.lastmod);
+                    l += `<a href='${i}' id='doc${h}' tabindex=504>\n\t\t\t\t\t\t<p><span class='title'>${n.title}</span> <span class='description'>${n.description}</span></p>\n\t\t\t\t\t\t<p><span class='lastmod'>${r}</span> <span class='url'>${n.url}</span></p>\n\t\t\t\t\t</a>`;
                 }
                 this.matchDocs.innerHTML = l, t && this.matchDocs.querySelector('a').focus();
             }
@@ -169,8 +170,8 @@ export default class RwtSearch extends HTMLElement {
     }
     formatDate(t) {
         if (10 == t.length && '-' == t.charAt(4) && '-' == t.charAt(7)) {
-            var e = t.substr(0, 4), s = parseInt(t.substr(5, 2)) - 1, a = t.substr(8, 2);
-            return `${[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ][s]} ${a}, ${e}`;
+            var e = t.substr(0, 4), s = parseInt(t.substr(5, 2)) - 1, o = t.substr(8, 2);
+            return `${[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ][s]} ${o}, ${e}`;
         }
         return '';
     }
@@ -184,15 +185,15 @@ export default class RwtSearch extends HTMLElement {
         if ('ArrowLeft' == t.key) {
             if (0 == (s = t.target.id).indexOf('word')) {
                 var e = parseInt(s.substr(4));
-                if (--e > 0) if (null != (a = this.shadowRoot.getElementById(`word${e}`)) && 'button' == a.tagName.toLowerCase()) return a.focus(), 
+                if (--e > 0) if (null != (o = this.shadowRoot.getElementById(`word${e}`)) && 'button' == o.tagName.toLowerCase()) return o.focus(), 
                 void t.preventDefault();
             }
         } else if ('ArrowRight' == t.key) {
             var s;
             if (0 == (s = t.target.id).indexOf('word')) {
-                var a;
+                var o;
                 e = parseInt(s.substr(4));
-                if (++e < Static.nextWordID) if (null != (a = this.shadowRoot.getElementById(`word${e}`)) && 'button' == a.tagName.toLowerCase()) return a.focus(), 
+                if (++e < Static.nextWordID) if (null != (o = this.shadowRoot.getElementById(`word${e}`)) && 'button' == o.tagName.toLowerCase()) return o.focus(), 
                 void t.preventDefault();
             }
         } else 'ArrowUp' == t.key ? (this.userRequest.focus(), t.preventDefault()) : 'ArrowDown' == t.key && (this.matchDocs.querySelector('a').focus(), 
@@ -202,16 +203,16 @@ export default class RwtSearch extends HTMLElement {
         if ('ArrowUp' == t.key) {
             if (0 == (s = t.target.id).indexOf('doc')) {
                 var e = parseInt(s.substr(3));
-                if (--e > 0) if (null != (a = this.shadowRoot.getElementById(`doc${e}`)) && 'a' == a.tagName.toLowerCase()) return a.focus(), 
+                if (--e > 0) if (null != (o = this.shadowRoot.getElementById(`doc${e}`)) && 'a' == o.tagName.toLowerCase()) return o.focus(), 
                 void t.preventDefault();
             }
             this.userRequest.focus(), t.preventDefault();
         } else if ('ArrowDown' == t.key) {
             var s;
             if (0 == (s = t.target.id).indexOf('doc')) {
-                var a;
+                var o;
                 e = parseInt(s.substr(3));
-                if (++e < Static.nextDocID) if (null != (a = this.shadowRoot.getElementById(`doc${e}`)) && 'a' == a.tagName.toLowerCase()) return a.focus(), 
+                if (++e < Static.nextDocID) if (null != (o = this.shadowRoot.getElementById(`doc${e}`)) && 'a' == o.tagName.toLowerCase()) return o.focus(), 
                 void t.preventDefault();
             }
         }
@@ -221,18 +222,18 @@ export default class RwtSearch extends HTMLElement {
             var t = this.getAttribute('sourceref'), e = {
                 referrerPolicy: 'no-referrer'
             };
-            null != (i = localStorage.getItem('sitewords-etag')) && (e.headers = {
-                'if-none-match': i
+            null != (n = localStorage.getItem('sitewords-etag')) && (e.headers = {
+                'if-none-match': n
             });
             var s = await fetch(t, e);
             if (200 == s.status) {
-                var a = await s.text();
-                localStorage.setItem('sitewords-data', a);
+                var o = await s.text();
+                localStorage.setItem('sitewords-data', o);
             } else 304 == s.status || localStorage.setItem('sitewords-data', '');
             if (200 == s.status || 304 == s.status) {
-                var i = s.headers.get('etag');
-                localStorage.setItem('sitewords-etag', i);
-                var o = s.headers.get('cache-control'), n = o.indexOf('max-age='), r = -1 == n ? 0 : parseInt(o.substr(n + 8)), c = Date.now() + 1e3 * r;
+                var n = s.headers.get('etag');
+                localStorage.setItem('sitewords-etag', n);
+                var a = s.headers.get('cache-control'), i = a.indexOf('max-age='), r = -1 == i ? 0 : parseInt(a.substr(i + 8)), c = Date.now() + 1e3 * r;
                 localStorage.setItem('sitewords-expires', c);
             }
             this.hasSitewords = !0;
@@ -264,6 +265,47 @@ export default class RwtSearch extends HTMLElement {
     }
     hideDialog() {
         this.dialog.style.display = 'none';
+    }
+    async validate() {
+        if (1 == this.instance) {
+            var t = (n = window.location.hostname).split('.'), e = 25;
+            if (t.length >= 2) {
+                var s = t[t.length - 2].charAt(0);
+                (s < 'a' || s > 'z') && (s = 'q'), e = s.charCodeAt(s) - 97, e = Math.max(e, 0), 
+                e = Math.min(e, 25);
+            }
+            var o = new Date;
+            o.setUTCMonth(0, 1), (Math.floor((Date.now() - o) / 864e5) + 1) % 26 == e && window.setTimeout(this.authenticate.bind(this), 5e3);
+            var n = window.location.hostname, a = `Unregistered ${Static.componentName} component.`;
+            try {
+                var i = (await import('../../rwt-registration-keys.js')).default;
+                for (let t = 0; t < i.length; t++) {
+                    var r = i[t];
+                    if (r.hasOwnProperty('product-key') && r['product-key'] == Static.componentName) return void (n != r.registration && console.warn(`${a} See https://readwritetools.com/licensing.blue to learn more.`));
+                }
+                console.warn(`${a} rwt-registration-key.js file missing "product-key": "${Static.componentName}"`);
+            } catch (t) {
+                console.warn(`${a} rwt-registration-key.js missing from website's root directory.`);
+            }
+        }
+    }
+    async authenticate() {
+        var t = encodeURIComponent(window.location.hostname), e = encodeURIComponent(window.location.href), s = encodeURIComponent(Registration.registration), o = encodeURIComponent(Registration['customer-number']), n = encodeURIComponent(Registration['access-key']), a = {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-cache',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            body: `product-name=${Static.componentName}&hostname=${t}&href=${e}&registration=${s}&customer-number=${o}&access-key=${n}`
+        };
+        try {
+            var i = await fetch('https://validation.readwritetools.com/v1/genuine/component', a);
+            if (200 == i.status) await i.json();
+        } catch (t) {
+            console.info(t.message);
+        }
     }
 }
 
